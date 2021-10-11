@@ -1,6 +1,6 @@
 # asf_notebook.py
-# Alex Lewandowski
-# 9-30-2021
+# Alex Lewandowski, Rui Kawahara
+# Oct-11-2021
 # Module of Alaska Satellite Facility OpenSARLab Jupyter Notebook helper functions
 
 
@@ -204,41 +204,7 @@ def vrt_to_gtiff(vrt: str, output: str):
     sub = subprocess.run(cmd, stderr=subprocess.PIPE, shell=True)
     print(str(sub.stderr)[2: -3])
 
-
-#########################
-#  Vertex API Functions #
-#########################
-
-# Obsolete - change here
-def get_vertex_granule_info(granule_name: str, processing_level: int) -> dict:
-    """
-    Takes a string granule name and int processing level, and returns the granule info as json.<br><br>
-    preconditions:
-    Requires AWS Vertex API authentification (already logged in).
-    Requires a valid granule name.
-    Granule and processing level must match.
-    """
-    assert type(granule_name) == str, 'Error: granule_name must be a string.'
-    assert type(processing_level) == str, 'Error: processing_level must be a string.'
-
-    vertex_API_URL = "https://api.daac.asf.alaska.edu/services/search/param"
-    try:
-        response = requests.post(
-            vertex_API_URL,
-            params=[('granule_list', granule_name), ('output', 'json'),
-                    ('processingLevel', processing_level)]
-        )
-    except requests.exceptions.RequestException as e:  # This is the correct syntax
-        print(e)
-        sys.exit(1)
-    else:
-        if len(response.json()) > 0:
-            json_response = response.json()[0][0]
-            return json_response
-        else:
-            print("get_vertex_granule_info() failed.\ngranule/processing level mismatch.")
-
-
+    
 #########################
 #  Hyp3v2 API Functions #
 #########################
